@@ -12,4 +12,3 @@ Comment
 printf("World");
 return 0;
 }
-

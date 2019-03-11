@@ -10,9 +10,9 @@ public class Lab3 {
 
     public static void main(String[] args) {
         try {
-            FileReader fr = new FileReader(new File("C:\\Users\\student\\Documents\\NetBeansProjects\\Lab3\\src\\lab3\\input.txt"));
+            FileReader fr = new FileReader(new File("F:\\CSE\\4.1\\CompilarLab\\src\\lab3\\input.txt"));
             BufferedReader br = new BufferedReader(fr);
-            FileWriter fw = new FileWriter(new File("C:\\Users\\student\\Documents\\NetBeansProjects\\Lab3\\src\\lab3\\outputlab.txt"));
+            FileWriter fw = new FileWriter(new File("F:\\CSE\\4.1\\CompilarLab\\src\\lab3\\outputlab.txt"));
             String s = "";
             String code = "";
             while ((s = br.readLine()) != null) {
@@ -131,37 +131,6 @@ public class Lab3 {
 
         return true;
     }
-    /*public static boolean isIdentifier(String s){
-        
-        
-      
-     if((s.charAt(0)>='A' && s.charAt(0)<='Z')|| (s.charAt(0)>='a' && s.charAt(0)<='z') || s.charAt(0)=='_'){
-     System.out.println(s.length());
-     int i=0;
-     while (i<s.length()) {               
-     if((s.charAt(i)>='A' && s.charAt(i)<='Z')|| (s.charAt(i)>='a' && s.charAt(i)<='z')|| (s.charAt(i)>='0' && s.charAt(i)<='9')|| s.charAt(i)=='_'){
-     i++;
-                  
-     }
-     }
-           
-          
-     if(s.length() == 1){
-               
-     return true;
-     }
-        
-     if(i==s.length()){
-     return true;
-     }
-     else{
-     // System.out.println(s+" eikhan theke " +i);
-     return false;
-     }
-     }
-     else{
-     return false;
-     }
-     }*/
+
 
 }

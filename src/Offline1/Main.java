@@ -41,6 +41,10 @@ public class Main {
 
             String finalCode = getCodeWithoutExtraSpace(codeWithout_newline_tab);
 
+            String[] anArray = new String[]{"[","]","{","}","(",")","==","=","<=",">=","!=",">","<",";",",","+","-","*","/"};
+
+
+
             fw.write(finalCode.trim());
 
             System.out.println("The Input File Code is:");
@@ -61,6 +65,7 @@ public class Main {
             }
         }
     }
+
 
     public static String getCodeWithoutMultilineComment(String aString) {
         String resultString = "";
