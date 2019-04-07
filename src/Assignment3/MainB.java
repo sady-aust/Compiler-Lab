@@ -9,33 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MainB {
-    static class SymbolTableData {
-        int id;
-        String indentifierName;
-        String identifierType;
-        String identifierDataType;
-        String scope;
-
-        public SymbolTableData(int id, String indentifierName, String identifierType, String identifierDataType, String scope) {
-            this.id = id;
-            this.indentifierName = indentifierName;
-            this.identifierType = identifierType;
-            this.identifierDataType = identifierDataType;
-            this.scope = scope;
-        }
-
-        public SymbolTableData(String indentifierName, String identifierType, String identifierDataType, String scope) {
-
-            this.indentifierName = indentifierName;
-            this.identifierType = identifierType;
-            this.identifierDataType = identifierDataType;
-            this.scope = scope;
-        }
-    }
-
     public static void main(String[] args) {
         try {
-
 
             FileReader fr = new FileReader(new File("F:\\CSE\\4.1\\CompilarLab\\src\\Assignment3\\inputB"));
             BufferedReader br = new BufferedReader(fr);
@@ -64,8 +39,6 @@ public class MainB {
 
             for (int i = 0; i < lineArray.length; i++) {
                 String[] tokenArray = lineArray[i].split(" ");
-
-
                 String myString = "";
                 for (String aString : tokenArray) {
                     if (getCategory(aString).equals("id")) {
@@ -86,7 +59,6 @@ public class MainB {
             intermidiateCOde = intermidiateCOde.replace("<", " < ");
             intermidiateCOde = intermidiateCOde.replace("+", " + ");
             intermidiateCOde = intermidiateCOde.replace("*", " * ");
-            //System.out.println(intermidiateCOde);
             lineArray = intermidiateCOde.split("\n");
 
             Stack<String> bracketStack = new Stack<>();
@@ -114,8 +86,7 @@ public class MainB {
                 }
 
             }
-
-                       Stack<String> ifElseStack = new Stack<>();
+               Stack<String> ifElseStack = new Stack<>();
 
             for(int i=0;i<lineArray.length;i++){
                 String[] arr = lineArray[i].split(" ");
@@ -133,11 +104,7 @@ public class MainB {
                         }
                     }
                 }
-
-
-
             }
-
 
             Stack<String> bracesStack = new Stack<>();
 
@@ -163,11 +130,7 @@ public class MainB {
                     System.out.println("No closing '(' for "+myArr[0]+" line opening (");
                 }
 
-
-
             }
-
-
 
             fw.close();
 
@@ -224,190 +187,9 @@ public class MainB {
         return -1;
     }
 
-    /**
-     * Search by scope ,Name,
-     */
-    public static int search(List<MainA.SymbolTableData> aList, String scope, String name) {
-
-        for (MainA.SymbolTableData aData : aList) {
-
-            if (aData.indentifierName.equals(name) && aData.scope.equals(scope)) {
-                return aData.id;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * Search by name ,idType,
-     */
-    public static int searchByNameAndIdType(List<MainA.SymbolTableData> aList, String name, String idType) {
-
-        for (MainA.SymbolTableData aData : aList) {
-
-            if (aData.identifierType.equals(idType) && aData.indentifierName.equals(name)) {
-                return aData.id;
-            }
-        }
-
-        return -1;
-    }
-
-
-    public static void display(List<MainA.SymbolTableData> aList) {
-
-        for (MainA.SymbolTableData aData : aList) {
-            System.out.format("%10s%10s%10s%10s%10s\n", aData.id, aData.indentifierName, aData.identifierType, aData.identifierDataType, aData.scope);
-        }
-    }
-
-    public static boolean hasAnyDataType(int currentIndex, List<String> tokens) {
-        if (currentIndex == 0) {
-            return false;
-        }
-
-        for (int i = currentIndex - 1; i >= 0; i--) {
-            if (tokens.get(i).equals("int") || tokens.get(i).equals("float") || tokens.get(i).equals("double") || tokens.get(i).equals("char") || tokens.get(i).equals("string") || tokens.get(i).equals("long")) {
-                return true;
-            }
-
-            if (tokens.get(i).equals(";")) {
-                break;
-            }
-        }
-
-        return false;
-    }
-
-    public static String getDataType(int currentIndex, List<String> tokens) {
-        for (int i = currentIndex - 1; i >= 0; i--) {
-            if (tokens.get(i).equals("int") || tokens.get(i).equals("float") || tokens.get(i).equals("double") || tokens.get(i).equals("char") || tokens.get(i).equals("string") || tokens.get(i).equals("long")) {
-                return tokens.get(i);
-            }
-
-            if (tokens.get(i).equals(";")) {
-                break;
-            }
-        }
-        return "paini";
-    }
-
-    public static String getScopeName(int currentIndex, List<String> tokens) {
-        if (currentIndex == 0) {
-            return "global";
-        }
-
-        int i = 0;
-        boolean isOpenCurlyFound = false;
-        for (i = currentIndex - 1; i >= 0; i--) {
-            if (tokens.get(i) == "{") {
-                isOpenCurlyFound = true;
-                break;
-            }
-        }
-
-        if (!isOpenCurlyFound) {
-            boolean isOpenPerFound = false;
-
-            for (i = currentIndex - 1; i >= 0; i--) {
-
-                if (tokens.get(i).length() == 1) {
-                    if (tokens.get(i).equals("(")) {
-                        isOpenPerFound = true;
-                        String[] arr = tokens.get(i - 1).split(" ");
-                        if (arr.length > 1) {
-                            //System.out.println("length is "+arr.length);
-                            return arr[1];
-                        }
-
-                    } else if (tokens.get(i).equals("}")) {
-                        break;
-                    }
-                }
-            }
-
-            if (!isOpenPerFound) {
-                return "global";
-            }
-        } else {
-
-
-            for (i = i - 1; i >= 0; i--) {
-                String[] arr = tokens.get(i).split(" ");
-                if (arr.length == 2) {
-                    return arr[1];
-                }
-            }
-        }
-        return "global";
-    }
-
-    public static boolean isFunction(int currentIndes, List<String> tokens) {
-        if (tokens.get(currentIndes + 1).equals("(")) {
-            return true;
-        }
-        return false;
-
-    }
-
     public static String getCategory(String s) {
         Set<String> keyword = new HashSet<>();
-        keyword.add("char");
-        keyword.add("int");
-        keyword.add("float");
-        keyword.add("if");
-        keyword.add("else");
-        keyword.add("#include<stdio.h>");
-        //keyword.add("main");
-        keyword.add("void");
-        keyword.add("printf");
-        keyword.add("break");
-        keyword.add("long");
-        keyword.add("switch");
-        keyword.add("case");
-        keyword.add("enum");
-        keyword.add("register");
-        keyword.add("extern");
-        keyword.add("return");
-        keyword.add("union");
-        keyword.add("const");
-        keyword.add("short");
-        keyword.add("unsigned");
-        keyword.add("continue");
-        keyword.add("for");
-        keyword.add("signed");
-        keyword.add("default");
-        keyword.add("goto");
-        keyword.add("sizeof");
-        keyword.add("volatile");
-        keyword.add("do");
-        keyword.add("static");
-        keyword.add("while");
-
-        Set<String> seperator = new HashSet<>();
-        seperator.add(";");
-        seperator.add(",");
-        seperator.add("'");
-        seperator.add("\"");
-
-        Set<String> operator = new HashSet<>();
-        operator.add("+");
-        operator.add("-");
-        operator.add("*");
-        operator.add("/");
-        operator.add("=");
-        operator.add("<=");
-        operator.add(">=");
-
-        Set<String> parantesis = new HashSet<>();
-        parantesis.add("(");
-        parantesis.add(")");
-        parantesis.add("[");
-        parantesis.add("]");
-        parantesis.add("{");
-        parantesis.add("}");
-
+        keyword.add("char");keyword.add("int");keyword.add("float");keyword.add("if");keyword.add("else");keyword.add("#include<stdio.h>"); keyword.add("void"); keyword.add("printf"); keyword.add("break"); keyword.add("long"); keyword.add("switch"); keyword.add("case"); keyword.add("enum"); keyword.add("register"); keyword.add("extern"); keyword.add("return"); keyword.add("union"); keyword.add("const"); keyword.add("short"); keyword.add("unsigned"); keyword.add("continue"); keyword.add("for"); keyword.add("signed"); keyword.add("default"); keyword.add("goto"); keyword.add("sizeof"); keyword.add("volatile"); keyword.add("do"); keyword.add("static"); keyword.add("while"); Set<String> seperator = new HashSet<>(); seperator.add(";"); seperator.add(","); seperator.add("'"); seperator.add("\""); Set<String> operator = new HashSet<>(); operator.add("+"); operator.add("-"); operator.add("*"); operator.add("/"); operator.add("="); operator.add("<="); operator.add(">="); Set<String> parantesis = new HashSet<>(); parantesis.add("("); parantesis.add(")"); parantesis.add("["); parantesis.add("]"); parantesis.add("{"); parantesis.add("}");
         if (keyword.contains(s)) {
             return "kw";
         } else if (seperator.contains(s)) {

@@ -1,0 +1,1 @@
+t4=t3-ft0=c/dt1=b*t0t2=t1+et3=a-t2

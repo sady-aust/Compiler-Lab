@@ -1,10 +1,7 @@
 package Assignment2;
-
 import java.io.*;
 import java.util.*;
-import java.math.*;
 public class Main {
-
     public static void main(String[] args) {
         FileReader fr = null;
         FileWriter fw = null;
@@ -306,6 +303,5 @@ public class Main {
 
         return true;
     }
-
 
 }
